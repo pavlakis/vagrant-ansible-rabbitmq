@@ -1,0 +1,3 @@
+---
+- name: restart hiawatha
+  service: name=hiawatha enabled=yes state=restarted

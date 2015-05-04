@@ -1,0 +1,5 @@
+mariadb:
+    root_password: Admin123
+    user: web_user
+    password: User123
+    database: helloworld

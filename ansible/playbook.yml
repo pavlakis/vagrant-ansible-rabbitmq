@@ -1,0 +1,21 @@
+---
+- hosts: all
+  sudo: true
+  vars:
+    web_server: hiawatha
+    servername: rabbit.local www.rabbit.local 192.168.45.56
+    timezone: UTC
+  vars_files:
+    - vars/mariadb.yml
+    - vars/common.yml
+    - [ "vars/hiawathaphp.yml"]
+  roles:
+    - init
+    - php5-cli
+    - php5-fpm
+    - mariadb
+    - composer
+    - phpcommon
+    - hiawatha
+    - rabbit
+    - app

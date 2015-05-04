@@ -1,0 +1,30 @@
+---
+- name: Adding RabbitMQ apt key
+  apt_key: url=http://www.rabbitmq.com/rabbitmq-signing-key-public.asc state=present
+
+- name: Adding RabbitMQ repo
+  sudo: yes
+  apt_repository: repo='deb http://www.rabbitmq.com/debian/ testing main' state=present
+
+- name: Install RabbitMQ server
+  sudo: yes
+  apt: pkg=rabbitmq-server state=latest
+
+- name: Set ulimit
+  lineinfile: dest=/etc/default/rabbitmq-server
+              line='ulimit -S -n 4096'
+
+- name: Enable Management Console
+  shell: rabbitmq-plugins enable rabbitmq_management
+
+- name: New User | Create Admin user
+  shell: rabbitmqctl add_user admin Admin123
+
+- name: New User | Make administrator
+  shell: rabbitmqctl set_user_tags admin administrator
+
+- name: New User | Make administrator
+  shell: rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
+
+- name: restart rabbitmq
+  shell: service rabbitmq-server restart

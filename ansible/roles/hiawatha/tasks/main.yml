@@ -1,0 +1,17 @@
+---
+- name: Adding Hiawatha apt key
+  apt_key: keyserver=keys.gnupg.net id=DC242980
+
+- name: Adding Hiawatha repo
+  sudo: yes
+  apt_repository: repo='deb http://apt.sparkz.no/debian/ squeeze main' state=present
+
+- name: Install Hiawatha
+  sudo: yes
+  apt: pkg=hiawatha state=latest
+
+- name: Change default hiawatha site
+  sudo: yes
+  template: src={{ ws_template }} dest={{ ws_vhost_path }}/{{ ws_vhost_file }}
+  notify: restart hiawatha
+
